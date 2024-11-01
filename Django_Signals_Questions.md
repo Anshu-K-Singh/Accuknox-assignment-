@@ -37,14 +37,14 @@ Here, we’ll define a signal triggered after a `Car` instance is saved and add 
    @receiver(post_car_save, sender=Car)
    def notify_owner(sender, **kwargs):
        print("Notifying car owner...")
-       time.sleep(3)  # Delay to simulate long processing
+       time.sleep(3)  # Delay to simulate 
        print("Owner notified successfully")
    ```
 
 3. Trigger the signal after saving the `Car` instance:
 
    ```python
-   # views.py or Django shell
+   # views.py 
    import time
    from .models import Car
    from .signals import post_car_save
@@ -57,7 +57,7 @@ Here, we’ll define a signal triggered after a `Car` instance is saved and add 
    print("Signal sent in:", end_time - start_time, "seconds")
    ```
 
-#### Expected Output:
+#### Output:
 ```
 Signal sending...
 Notifying car owner...
@@ -86,7 +86,7 @@ Yes, Django signals run in the **same thread** as the caller by default. To conf
    # Define a custom signal
    car_repaired = Signal()
 
-   # Define the receiver function
+   # receiver function
    @receiver(car_repaired)
    def log_repair(sender, **kwargs):
        print("Receiver thread ID:", threading.get_ident())
@@ -95,7 +95,7 @@ Yes, Django signals run in the **same thread** as the caller by default. To conf
 2. Trigger the signal and print the caller’s thread ID:
 
    ```python
-   # views.py or Django shell
+   # views.py 
    import threading
    from .signals import car_repaired
 
@@ -103,7 +103,7 @@ Yes, Django signals run in the **same thread** as the caller by default. To conf
    car_repaired.send(sender=None)
    ```
 
-#### Expected Output:
+#### Output:
 ```
 Caller thread ID: 140412345678912
 Receiver thread ID: 140412345678912
@@ -144,14 +144,14 @@ By default, Django signals run in the **same database transaction** as the calle
    @receiver(post_save, sender=Car)
    def update_car_status(sender, instance, **kwargs):
        instance.status = "Under Maintenance"
-       instance.save()  # Update within the same transaction
+       instance.save()  # Update 
        print("Signal processed, car status set to:", instance.status)
    ```
 
 3. Test the transaction behavior by forcing a rollback:
 
    ```python
-   # views.py or Django shell
+   # views.py 
    from django.db import transaction
    from .models import Car
 
@@ -167,7 +167,7 @@ By default, Django signals run in the **same database transaction** as the calle
    print("Final status in database:", Car.objects.filter(name="Audi Q7").first().status)
    ```
 
-#### Expected Output:
+#### Output:
 ```
 Signal processed, car status set to: Under Maintenance
 Car status after signal: Under Maintenance
